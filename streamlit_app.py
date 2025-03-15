@@ -9,7 +9,7 @@ user_input = st.text_input("Enter your message:", "")
 if st.button("Send"):
     if user_input:
         # Send request to local Ollama
-        response = ollama.chat(model="mistral", messages=[{"role": "user", "content": user_input}])
+        response = ollama.chat(model="llama3.2", messages=[{"role": "user", "content": user_input}])
 
         # Display response
         st.write("Ollama's Response:")
