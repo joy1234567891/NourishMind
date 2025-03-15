@@ -2,7 +2,7 @@ import whisper
 import sounddevice as sd
 import numpy as np
 
-model = whisper.load("medium")
+model = whisper.load_model("medium")
 
 # Function to record audio from the microphone
 def record_audio(duration, sample_rate=16000):

@@ -2,6 +2,8 @@ import streamlit as st
 import ollama
 import audio
 
+# python -m streamlit run streamlit_app.py
+
 AUDIO_LENGTH = 120  # seconds
 
 # Streamlit UI
