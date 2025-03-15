@@ -1,6 +1,7 @@
 import streamlit as st
 import ollama
 import audio
+import asyncio
 
 # python -m streamlit run streamlit_app.py
 
@@ -17,8 +18,12 @@ if st.button("Start"):
 
     if st.button("Send"):
         if user_input:
+            # Ensure there's a running event loop
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
             # Send request to local Ollama
-            response = ollama.chat(model="llama3.2", messages=[{"role": "user", "content": user_input}])
+            response = loop.run_until_complete(ollama.chat(model="llama3.2", messages=[{"role": "user", "content": user_input}]))
 
             # Display response
             st.write("Ollama's Response:")
