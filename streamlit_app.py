@@ -1,10 +1,14 @@
 import streamlit as st
 import ollama
+import audio
+
+AUDIO_LENGTH = 120  # seconds
 
 # Streamlit UI
 st.title("Chat with Ollama")
 
-user_input = st.text_input("Enter your message:", "")
+# Get user input from calling transcribe_audio_from_microphone
+user_input = audio.transcribe_audio_from_microphone(AUDIO_LENGTH)
 
 if st.button("Send"):
     if user_input:
