@@ -39,7 +39,8 @@ else:
 user_input = st.text_input("Enter your message:", "")
 prompt = ('Based on user input, analyze user mood and based on the input context,'
           ' analyze this kind of mood might cause from lacking which nutrition, '
-          'and select randomly one nutrition which user might lack, recommend food which contains such nutrition')
+          'and select randomly one nutrition which user might lack, recommend food which contains such nutrition. '
+          'Only list the recommended food.')
 
 # Process input when the send button is clicked
 if st.button("Send"):
