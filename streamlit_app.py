@@ -3,8 +3,7 @@ import ollama
 import audio
 import asyncio
 
-# python -m streamlit run streamlit_app.py
-
+# Constants
 AUDIO_LENGTH = 120  # seconds
 
 # Initialize session state
@@ -16,37 +15,41 @@ if 'user_input' not in st.session_state:
 # Streamlit UI
 st.title("Nourish Mind")
 
-# Add a "Start" button to start recording
+# Start recording when button is clicked
 if not st.session_state.recording:
     if st.button("Start"):
         st.session_state.recording = True
         st.write("Recording... Please wait.")
-        st.session_state.user_input = audio.transcribe_audio_from_microphone(AUDIO_LENGTH)
+        with st.spinner("Transcribing audio..."):
+            st.session_state.user_input = audio.transcribe_audio_from_microphone(AUDIO_LENGTH)
         st.session_state.recording = False
         st.write("Recording finished.")
 
-# Add a "Stop" button to stop recording
+# Stop recording when button is clicked
 if st.session_state.recording:
     if st.button("Stop"):
         st.session_state.recording = False
         st.write("Recording stopped.")
-        st.session_state.user_input = audio.transcribe_audio_from_microphone(AUDIO_LENGTH)
+        with st.spinner("Transcribing audio..."):
+            st.session_state.user_input = audio.transcribe_audio_from_microphone(AUDIO_LENGTH)
         st.write("Recording finished.")
 
-# Add a "Send" button to send the transcribed audio
+# Send transcribed audio to Ollama
 if st.session_state.user_input:
     if st.button("Send"):
         user_input = st.session_state.user_input
-        print("User input:", user_input)
-        # Ensure there's a running event loop
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        
-        # Send request to local Ollama
-        response = loop.run_until_complete(ollama.chat(model="llama3.2", messages=[{"role": "user", "content": user_input}]))
+        st.write("User input:", user_input)
 
-        # Display response
+        # Async function to handle Ollama request
+        async def get_ollama_response(user_input):
+            response = await ollama.chat(model="llama3.2", messages=[{"role": "user", "content": user_input}])
+            return response['message']['content']
+
+        # Call the async function using asyncio.run()
+        response = asyncio.run(get_ollama_response(user_input))
+
+        # Display the response from Ollama
         st.write("Ollama's Response:")
-        st.write(response['message']['content'])
+        st.write(response)
     else:
         st.warning("Please enter a message before sending.")
