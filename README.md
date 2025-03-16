@@ -3,4 +3,4 @@
 pip install streamlit ollama
 
 ## How to run:
-streamlit run streamlit_app.py
+python -m streamlit run streamlit_app.py
