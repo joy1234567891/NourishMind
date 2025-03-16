@@ -6,7 +6,7 @@ from sentence_transformers import SentenceTransformer
 import json
 
 # Initialize Streamlit UI
-st.title("Chat with Ollama")
+st.title("Nourish Mind")
 
 # Check if context.txt exists
 context_file = r"res\\context.txt"
@@ -69,7 +69,7 @@ if st.button("Send"):
         )
 
         # Display the response
-        st.write("Ollama's Response:")
+        st.write("Nourish Mind Advise:")
         st.write(response['message']['content'])
     else:
         st.warning("Please enter a message before sending.")
